@@ -85,11 +85,14 @@ DATABASES = {
 #       'ENGINE': 'django.db.backends.sqlite3',
 #       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #   }
-    DATABASES = {
-      'default': dj_database_url.config(
-          default='sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
-      )
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'dbru9mpv93bet0',
+        'USER': 'wjqrwpjsayuyfi',
+        'PASSWORD': 'fb4632ba93f109af26b809111f2b29c02f458d6e115f5b653ca35b30d0fa6c14',
+        'HOST': 'ec2-54-243-137-182.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
+    }
 }
 
 
