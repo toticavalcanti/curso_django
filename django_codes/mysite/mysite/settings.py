@@ -29,9 +29,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['polls-toti.herokuapp.com']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -81,18 +81,27 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DATABASE_URL'),
+        'PORT': '',
+    }
 #    'default': {
 #       'ENGINE': 'django.db.backends.sqlite3',
 #       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #   }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'dbru9mpv93bet0',
-        'USER': 'wjqrwpjsayuyfi',
-        'PASSWORD': 'fb4632ba93f109af26b809111f2b29c02f458d6e115f5b653ca35b30d0fa6c14',
-        'HOST': 'ec2-54-243-137-182.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '5432',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+    #     'NAME': 'dbru9mpv93bet0',
+    #     'USER': 'wjqrwpjsayuyfi',
+    #     'PASSWORD': 'fb4632ba93f109af26b809111f2b29c02f458d6e115f5b653ca35b30d0fa6c14',
+    #     'HOST': 'ec2-54-243-137-182.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+    #     'PORT': '5432',
+    # }
+
 }
 
 
