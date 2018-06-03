@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from decouple import config
+import dj_database_url
 
 # separe a sua SECRET_KEY pois vamos usar ela posteriormente
 SECRET_KEY = config('SECRET_KEY')
@@ -84,14 +85,11 @@ DATABASES = {
 #       'ENGINE': 'django.db.backends.sqlite3',
 #       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #   }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'db_mysite',
-        'USER': 'root',
-        'PASSWORD': 'mysql0401',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-    }
+    DATABASES = {
+      'default': dj_database_url.config(
+          default='sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
+      )
+  }
 }
 
 
