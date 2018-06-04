@@ -3,3 +3,4 @@ venv
 staticfiles
 .env
 SECRET_KEY.txt
+rascunho.txt
