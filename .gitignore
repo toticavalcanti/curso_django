@@ -1,3 +1,4 @@
+django_codes/ambientes_virtuais/*
 venv
 *.pyc
 staticfiles
