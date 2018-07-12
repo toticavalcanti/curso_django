@@ -1,4 +1,5 @@
 django_codes/ambientes_virtuais/**/*
+django_codes/mysite/mysite/settings_dev
 venv
 *.pyc
 staticfiles
