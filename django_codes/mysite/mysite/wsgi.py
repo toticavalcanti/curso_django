@@ -12,7 +12,7 @@ import sys
 from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
-path = '/app/django_codes/mysite'
+path = '/app/django_codes/'
 if path not in sys.path:
     sys.path.append(path)
 
