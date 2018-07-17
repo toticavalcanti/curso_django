@@ -32,7 +32,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
@@ -46,6 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Disable Django's own staticfiles handling in favour of WhiteNoise, for
+    # greater consistency between gunicorn and `./manage.py runserver`. See:
+    # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
+    'whitenoise.runserver_nostatic',
     'polls.apps.PollsConfig',
 ]
 
@@ -82,28 +87,28 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+#DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DATABASE_URL'),
-        'PORT': '',
-    }
-#    'default': {
-#       'ENGINE': 'django.db.backends.sqlite3',
-#       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#   }
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-    #     'NAME': 'dbru9mpv93bet0',
-    #     'USER': 'wjqrwpjsayuyfi',
-    #     'PASSWORD': 'fb4632ba93f109af26b809111f2b29c02f458d6e115f5b653ca35b30d0fa6c14',
-    #     'HOST': 'ec2-54-243-137-182.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
-    #     'PORT': '5432',
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': config('DB_NAME'),
+    #     'USER': config('DB_USER'),
+    #     'PASSWORD': config('DB_PASSWORD'),
+    #     'HOST': config('DATABASE_URL'),
+    #     'PORT': '',
     # }
+  #  'default': {
+  #     'ENGINE': 'django.db.backends.sqlite3',
+  #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+  # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'dbru9mpv93bet0',
+        'USER': 'wjqrwpjsayuyfi',
+        'PASSWORD': 'fb4632ba93f109af26b809111f2b29c02f458d6e115f5b653ca35b30d0fa6c14',
+        'HOST': 'ec2-54-243-137-182.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
+    }
 
 }
 
@@ -150,3 +155,11 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static'),
+]
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
